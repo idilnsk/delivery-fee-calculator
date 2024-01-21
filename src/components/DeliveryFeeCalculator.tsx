@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { calculateDeliveryFee } from '../utils/calculateDeliveryFee';
-
-// Function to generate time options outside of the component
-const generateTimeOptions = () => {
-    const times = [];
-    for (let hour = 10; hour <= 24; hour++) {
-        times.push(`${hour.toString().padStart(2, '0')}:00`);
-        times.push(`${hour.toString().padStart(2, '0')}:30`);
-    }
-    return times.filter(time => time !== '24:00' && time !== '24:30'); // Exclude 24:00 and 24:30
-};
+import OrderTypeSelector from './OrderTypeSelector';
+import DeliveryDateSelector from './DeliveryDateSelector';
+import DeliveryTimeSelector from './DeliveryTimeSelector';
+import FeeDisplay from './FeeDisplay';
+import generateTimeOptions from '../utils/timeUtils'
 
 const DeliveryFeeCalculator: React.FC = () => {
     const [cartValue, setCartValue] = useState<number>(0);
@@ -33,7 +28,7 @@ const DeliveryFeeCalculator: React.FC = () => {
             const rush = isFridayRush();
             const newDeliveryFee = calculateDeliveryFee(cartValue, numberOfItems, deliveryDistance, rush);
             const newSurcharge = calculateSurcharge(cartValue);
-            
+
             setDeliveryFee(newDeliveryFee);
             setSurcharge(newSurcharge);
             setTotal(newDeliveryFee + newSurcharge);
@@ -72,17 +67,21 @@ const DeliveryFeeCalculator: React.FC = () => {
     };
 
     const handleCartValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = parseFloat(e.target.value);
-        setCartValue(Number.isNaN(value) ? 0 : Math.max(0, value));
+        setCartValue(parseFloat(e.target.value));
     };
 
     const handleNumberOfItemsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNumberOfItems(Math.max(0, parseInt(e.target.value, 10)));
+        setNumberOfItems(parseInt(e.target.value, 10));
     };
 
     const handleDeliveryDistanceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setDeliveryDistance(Math.max(0, parseFloat(e.target.value)));
+        setDeliveryDistance(parseFloat(e.target.value));
     };
+
+    const handleDeliveryTimeChange = (selectedTime: string) => {
+        setDeliveryTime(selectedTime);
+    };
+
 
     return (
         <div className="max-w-md mx-auto my-10 p-6 border rounded shadow-md bg-babyBlue">
@@ -124,85 +123,21 @@ const DeliveryFeeCalculator: React.FC = () => {
                     onChange={handleDeliveryDistanceChange}
                     min="0"
                 />
-              <div>
-                    <label>
-                        <input
-                            type="radio"
-                            value="now"
-                            checked={orderType === 'now'}
-                            onChange={handleOrderTypeChange}
-                        />
-                        Order Now
-                    </label>
-                    <label>
-                        <input
-                            type="radio"
-                            value="later"
-                            checked={orderType === 'later'}
-                            onChange={handleOrderTypeChange}
-                        />
-                        Order Later
-                    </label>
-                </div>
-
-                {/* Conditional rendering for 'Order Later' option */}
+                <OrderTypeSelector value={orderType} onChange={handleOrderTypeChange} />
                 {orderType === 'later' && (
                     <>
-                        <label htmlFor="delivery-date" className="block text-sm font-medium text-gray-700">
-                            Select Delivery Date
-                        </label>
-                        <input
-                            id="delivery-date"
-                            className="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-babyBlue-light"
-                            type="date"
-                            value={deliveryDate}
-                            onChange={(e) => setDeliveryDate(e.target.value)}
-                            min={minDate}
-                            max={maxDate}
-                        />
-
-                        <label htmlFor="delivery-time" className="block text-sm font-medium text-gray-700">
-                            Select Delivery Time
-                        </label>
-                        <select
-                            id="delivery-time"
-                            className="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-babyBlue-light"
-                            value={deliveryTime}
-                            onChange={(e) => setDeliveryTime(e.target.value)}
-                        >
-                            {generateTimeOptions().map(slot => (
-                                <option key={slot} value={slot}>{slot}</option>
-                            ))}
-                        </select>
+                        <DeliveryDateSelector value={deliveryDate} onChange={setDeliveryDate} minDate={minDate} maxDate={maxDate} />
+                        <DeliveryTimeSelector value={deliveryTime} onChange={handleDeliveryTimeChange} timeOptions={timeOptions} />
                     </>
                 )}
-
                 <button 
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={calculateAndShowFees}
                 >
                     Calculate Delivery Price
                 </button>
-
-                {/* Conditional rendering to show fees after button click */}
                 {showFees && (
-                    <>
-                        <div className="flex justify-between">
-                            <span>Surcharge:</span>
-                            <span>€{surcharge.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span>Delivery Fee:</span>
-                            <span>€{deliveryFee.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between font-bold">
-                            <span>Total:</span>
-                            <span>€{total.toFixed(2)}</span>
-                        </div>
-                    </>
-                )}
-                {isFridayRush() && (
-                    <div className="text-red-500">Note: Rush hour surcharge is included in the fee.</div>
+                    <FeeDisplay surcharge={surcharge} deliveryFee={deliveryFee} total={total} isRush={isFridayRush()} />
                 )}
             </div>
         </div>

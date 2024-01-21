@@ -1,46 +1,28 @@
-# Getting Started with Create React App
+# Delivery Fee Calculator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+The Delivery Fee Calculator is a React application that allows users to calculate delivery fees based on cart value, number of items, delivery distance, and whether the order is placed during rush hours on Fridays. It offers a clean and intuitive interface  and is designed with modularity and reusability in mind.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Cart Value Input**: Users can input the value of their cart which may affect the delivery fee and surcharges.
+- **Number of Items Input**: Users can input the number of items in their order which may influence the delivery fee.
+- **Delivery Distance Input**: Users can specify the delivery distance in meters, which is a factor in calculating the delivery fee.
+- **Order Time Selection**: Users can choose to order now (immediate delivery) or order later (schedule delivery) with options every 30 minutes from 10 am to 2 am the next day, available 7 days a week.
+- **Dynamic Fee Calculation**: The application calculates the delivery fee dynamically, including rush hour surcharges for orders made on Friday between 3 pm and 7 pm.
+- **Modular Component Structure**: The application is built using separate components for each input and display area for better maintainability and scalability.
+- **Tailwind CSS Styling**: Styled with Tailwind CSS for a responsive and modern interface.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Project Structure
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- `src/components/`: Contains all the React components used in the project.
+  - `DeliveryFeeCalculator.tsx`: The main calculator component integrating all subcomponents.
+  - `OrderTypeSelector.tsx`: Allows users to select between ordering now or later.
+  - `DeliveryDateSelector.tsx`: Displays date picker when 'Order Later' is selected.
+  - `DeliveryTimeSelector.tsx`: Displays time picker with 30-minute intervals.
+  - `FeeDisplay.tsx`: Shows the calculated surcharge, delivery fee, and total.
+- `src/utils/`:
+  - `calculateDeliveryFee.ts`: Utility function to calculate the delivery fee.
+  - `timeUtils.ts`: Contains `generateTimeOptions` function to provide time slots.
+- `src/App.tsx`: Root component that renders the `Delivery
