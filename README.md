@@ -25,4 +25,4 @@ The Delivery Fee Calculator is a React application that allows users to calculat
 - `src/utils/`:
   - `calculateDeliveryFee.ts`: Utility function to calculate the delivery fee.
   - `timeUtils.ts`: Contains `generateTimeOptions` function to provide time slots.
-- `src/App.tsx`: Root component that renders the `Delivery
+- `src/App.tsx`: Root component

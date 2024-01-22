@@ -61,7 +61,7 @@ const DeliveryFeeCalculator: React.FC = () => {
     const calculateAndShowFees = () => {
         if (cartValue <= 0 || numberOfItems <= 0 || deliveryDistance <= 0 || (orderType === 'later' && (!deliveryDate || !deliveryTime))) {
             alert('Please fill all input fields before calculating.');
-            return; // Properly return here to prevent further execution
+            return; 
         }
         setShowFees(true);
     };
@@ -90,6 +90,7 @@ const DeliveryFeeCalculator: React.FC = () => {
                     Cart Value (€)
                 </label>
                 <input
+                 data-test-id="CartValue"
                     id="cart-value"
                     className="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-babyBlue-light"
                     type="number"
@@ -103,6 +104,7 @@ const DeliveryFeeCalculator: React.FC = () => {
                     Number of Items
                 </label>
                 <input
+                data-test-id="NumberOfItems"
                     id="number-of-items"
                     className="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-babyBlue-light"
                     type="number"
@@ -115,6 +117,7 @@ const DeliveryFeeCalculator: React.FC = () => {
                     Delivery Distance (meters)
                 </label>
                 <input
+                data-test-id="DeliveryDistance"
                     id="delivery-distance"
                     className="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-babyBlue-light"
                     type="number"

@@ -1,4 +1,3 @@
-// OrderTypeSelector.tsx
 import React from 'react';
 
 interface OrderTypeSelectorProps {
@@ -8,7 +7,7 @@ interface OrderTypeSelectorProps {
 
 const OrderTypeSelector: React.FC<OrderTypeSelectorProps> = ({ value, onChange }) => {
     return (
-        <div className="flex items-center gap-4"> {/* Add gap class */}
+        <div className="flex items-center gap-4" data-test-id="OrderTypeSelector"> 
             <label className="inline-flex items-center">
                 <input
                     type="radio"
