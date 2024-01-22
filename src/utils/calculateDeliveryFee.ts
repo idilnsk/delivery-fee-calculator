@@ -16,11 +16,13 @@ export const calculateDeliveryFee = (
 ): number => {
     let fee = BASE_FEE;
 
-    //  additional distance fee here
+    // Calculate additional distance fee
     if (deliveryDistance > MAX_ADDITIONAL_DISTANCE) {
         const additionalDistance = deliveryDistance - MAX_ADDITIONAL_DISTANCE;
-        const additionalIncrements = Math.floor(additionalDistance / DISTANCE_INCREMENT);
-        fee += (additionalIncrements + 1) * ADDITIONAL_FEE_PER_500M;
+        // Calculate the number of 500m increments
+    
+        const additionalIncrements = Math.ceil(additionalDistance / DISTANCE_INCREMENT);
+        fee += additionalIncrements * ADDITIONAL_FEE_PER_500M;
     }
 
     // calculate the item count surcharge

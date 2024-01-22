@@ -1,15 +1,14 @@
-// DeliveryTimeSelector.tsx
 import React from 'react';
 
 interface DeliveryTimeSelectorProps {
     value: string;
-    onChange: (selectedTime: string) => void; // Update the type here
+    onChange: (selectedTime: string) => void; 
         timeOptions: string[];
 }
 
 const DeliveryTimeSelector: React.FC<DeliveryTimeSelectorProps> = ({ value, onChange, timeOptions }) => {
     const handleTimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        onChange(event.target.value); // Call the passed onChange with the selected value
+        onChange(event.target.value); 
     };
     return (
         <div>
@@ -18,6 +17,7 @@ const DeliveryTimeSelector: React.FC<DeliveryTimeSelectorProps> = ({ value, onCh
             </label>
             <select
                 id="delivery-time"
+                data-test-id="DeliveryTimeSelector"
                 className="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-babyBlue-light"
                 value={value}
                 onChange={handleTimeChange}

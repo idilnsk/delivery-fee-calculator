@@ -1,6 +1,6 @@
-// timeUtils.ts in the 'utils' directory
 
-// Function to generate time options
+
+//  generate time options for "order later"
 export const generateTimeOptions = () => {
     const times = [];
     // Start at 10:00 and end at 02:00 the next day.
